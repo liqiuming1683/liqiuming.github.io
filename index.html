@@ -376,7 +376,184 @@
       
         
           
-            
+            <p>#项目说明<br>整体目标是基于Arduino设计能用手机控制的机械臂。</p>
+<p>项目可拆分为下面四部分进行：</p>
+<blockquote>
+<ol>
+<li>参考ABB IRB760工业码垛机械臂，且为降低制作成本，设计不需利用3D打印技术而只是用亚克力板和棒即可制作的桌面级机械臂；</li>
+<li>测试Arduino控制四个舵机的代码，通过舵机实现对机械臂的控制；</li>
+<li>通过手机控制可选的无线通信方案有：BLE，WiFi等，这里先选择BLE，选用HC-05蓝牙芯片，用手机对Arduino发送指令控制舵机；</li>
+<li>组装机械臂调试。</li>
+</ol>
+</blockquote>
+<p>#Process</p>
+<p>##Part1</p>
+<p><a href="http://new.abb.com/products/robotics/zh/industrial-robots/irb-760" target="_blank" rel="external">ABB IRB760工业码垛机械臂</a>即如下图所示</p>
+<p><img src="http://i.imgur.com/lSRdsIn.jpg" alt="ABB IRB760工业码垛机械臂"></p>
+<p>据此自行设计的机械臂已上传至<a href="http://most3d.cn/model/13640/" target="_blank" rel="external">MOST3D</a>，效果如下图</p>
+<p><img src="http://i.imgur.com/LRSrFM5.png" alt="MyVerRoboarm1"><br><img src="http://i.imgur.com/wofd1AR.png" alt="MyVerRoboarm1"></p>
+<p>SolidWorks文件已上传至<a href="http://pan.baidu.com/s/1c1UMvQC" target="_blank" rel="external">百度文档</a>可以下载查看</p>
+<p>##part2<br>测试Arduino控制舵机的代码，通过舵机实现对机械臂的控制；</p>
+<p>测试时用电位器调节舵机的旋转位置；</p>
+<p><img src="http://i.imgur.com/90ieojk.png" alt="原理图"><br><img src="http://i.imgur.com/Xi1b1JR.jpg" alt="用电位器控制舵机开发板实测"></p>
+<pre><code>/* 
+ * date: 2017/07/06
+ * author: liqiuming
+ * requirement statement:
+ * firstly, test servo SG90 in mega2560    
+ * then use Potentiometer as a input source to control servo MG995    
+ */
+#include &lt;Servo.h&gt;
+Servo MG995;
+int posServo = 0;//position of servo
+int pinPotentiometer = A1;
+
+void setup() {
+// put your setup code here, to run once:
+MG995.attach(2);
+pinMode(pinPotentiometer,INPUT);
+}
+
+void loop() {
+// put your main code here, to run repeatedly:
+int val = analogRead(pinPotentiometer);
+int valForServo = map(val,0,1024,0,180);
+MG995.write(valForServo);
+}
+</code></pre><p>##Part3</p>
+<p>测试HC-05蓝牙芯片：<br>使用的Arduino开发板型号是mega2560<br>HC-05与mega2560的连接方式是：</p>
+<blockquote>
+<ol>
+<li>将HC-05的TX引脚与mega2560RX引脚（0）相连，HC-05的RX引脚置空，因为不需要把数据从开发板发送到手机；</li>
+<li>将HC-05接入电源，用手机连接蓝牙，配对密码为1234；</li>
+<li>用手机发送指令控制舵机转动角度测试：手机每发送“0”时，舵机的角度增加5度；每发送“1”时，舵机角度减小5度。</li>
+</ol>
+</blockquote>
+<p><img src="http://i.imgur.com/o9G7MsA.png" alt="原理图"><br><img src="http://i.imgur.com/HlTsOsB.jpg" alt="用hc-05控制舵机测试开发板实测"></p>
+<pre><code>/*
+ * date:2017/07/07
+ * author：liqiuming
+ * requirement statement:
+ * test BLE module HC-05 with cellphone
+ * meanwhile we need test 4 servos at the same time
+ */
+#include &lt;Servo.h&gt;
+// 4 Servos are used, 3 are MG995 and 1 is SG90
+Servo MG995A;
+Servo MG995B;
+Servo MG995C;
+Servo SG90D;
+
+//initial positions of all Servo are 0 degree
+int posServoA= 0;
+int posServoB= 0;
+int posServoC= 0;
+int posServoD= 0;
+
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  MG995A.attach(2);
+  MG995B.attach(3);
+  MG995C.attach(4);
+  SG90D.attach(5);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if(Serial.available()&gt;0){
+    char ch = Serial.read();
+    switch(ch){
+      case &apos;0&apos;:
+        angleUpA();//发送“0”，MG995A角度增加5度；
+        break;
+      case &apos;1&apos;:
+        angleDownA();//发送“1”，MG995A角度减少5度；
+        break;
+      case &apos;2&apos;:
+        angleUpB();//发送“2”，MG995B角度增加5度；
+        break;
+      case &apos;3&apos;:
+        angleDownB();//发送“3”，MG995B角度减少5度；
+        break;
+      case &apos;4&apos;:
+        angleUpC();//发送“4”，MG995C角度增加5度；
+        break;
+      case &apos;5&apos;:
+        angleDownC();//发送“5”，MG995C角度减少5度；
+        break;
+      case &apos;6&apos;:
+        angleUpD();//发送“6”，MG995D角度增加5度；
+        break;
+      case &apos;7&apos;:
+        angleDownD();//发送“7”，MG995D角度减少5度；
+        break;
+    }
+  }
+}
+
+//below are the functions to increase or decrease each Servo&apos;s degrees
+//functions to control MG995A
+void angleUpA(){
+  posServoA += 5;
+  MG995A.write(posServoA);
+  Serial.print(&quot;MG995A&apos;s angle(°) is &quot;);
+  Serial.println(posServoA);
+}
+void angleDownA(){
+  posServoA -= 5;
+  MG995A.write(posServoA);
+  Serial.print(&quot;MG995A&apos;s angle(°) is &quot;);
+  Serial.println(posServoA);
+}
+
+//functions to control MG995B
+void angleUpB(){
+  posServoB += 5;
+  MG995B.write(posServoB);
+  Serial.print(&quot;MG995B&apos;s angle(°) is &quot;);
+  Serial.println(posServoB);
+}
+void angleDownB(){
+  posServoB -= 5;
+  MG995B.write(posServoB);
+  Serial.print(&quot;MG995B&apos;s angle(°) is &quot;);
+  Serial.println(posServoB);
+}
+
+//functions to control MG995C
+void angleUpC(){
+  posServoC += 5;
+  MG995C.write(posServoC);
+  Serial.print(&quot;MG995C&apos;s angle(°) is &quot;);
+  Serial.println(posServoC);
+}
+void angleDownC(){
+  posServoC -= 5;
+  MG995C.write(posServoC);
+  Serial.print(&quot;MG995C&apos;s angle(°) is &quot;);
+  Serial.println(posServoC);
+}
+
+//functions to control SG90D
+void angleUpD(){
+  posServoD += 5;
+  SG90D.write(posServoD);
+  Serial.print(&quot;SG90D&apos;s angle(°) is &quot;);
+  Serial.println(posServoD);
+}
+void angleDownD(){
+  posServoD -= 5;
+  SG90D.write(posServoD);
+  Serial.print(&quot;SG90D&apos;s angle(°) is &quot;);
+  Serial.println(posServoD);
+}
+</code></pre><p>##Part4</p>
+<blockquote>
+<p>组装进行机械臂调试</p>
+</blockquote>
+
           
         
       
