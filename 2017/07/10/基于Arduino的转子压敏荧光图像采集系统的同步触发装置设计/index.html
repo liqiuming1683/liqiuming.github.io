@@ -93,16 +93,18 @@
 
 
 
-<meta name="description" content="这是我本科毕业设计的内容，我会尽量简洁易懂地将其叙述出来。">
+<meta name="description" content="#写在前面2017年6月我本科毕业，毕业设计花了前前后后4个多月的样子，中途还更换过实验方案。由于觉得毕业内容很有原创性，且相较于我的专业比较有突破性，就想把毕设内容总结一下贴出来。  本人是飞行器动力工程专业，但毕设做的偏向电子方面，希望电子方面的大佬可以给点意见。  我会尽量简洁易懂地将其叙述出来。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于Arduino的转子压敏荧光图像采集系统的同步触发装置设计">
+<meta property="og:title" content="基于Arduino的PSP采集系统同步触发装置设计">
 <meta property="og:url" content="http://yoursite.com/2017/07/10/基于Arduino的转子压敏荧光图像采集系统的同步触发装置设计/index.html">
 <meta property="og:site_name" content="liqiuming Blog">
-<meta property="og:description" content="这是我本科毕业设计的内容，我会尽量简洁易懂地将其叙述出来。">
-<meta property="og:updated_time" content="2017-07-11T03:49:31.365Z">
+<meta property="og:description" content="#写在前面2017年6月我本科毕业，毕业设计花了前前后后4个多月的样子，中途还更换过实验方案。由于觉得毕业内容很有原创性，且相较于我的专业比较有突破性，就想把毕设内容总结一下贴出来。  本人是飞行器动力工程专业，但毕设做的偏向电子方面，希望电子方面的大佬可以给点意见。  我会尽量简洁易懂地将其叙述出来。">
+<meta property="og:image" content="http://i.imgur.com/ltKy2DZ.png">
+<meta property="og:updated_time" content="2017-07-13T03:04:46.004Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于Arduino的转子压敏荧光图像采集系统的同步触发装置设计">
-<meta name="twitter:description" content="这是我本科毕业设计的内容，我会尽量简洁易懂地将其叙述出来。">
+<meta name="twitter:title" content="基于Arduino的PSP采集系统同步触发装置设计">
+<meta name="twitter:description" content="#写在前面2017年6月我本科毕业，毕业设计花了前前后后4个多月的样子，中途还更换过实验方案。由于觉得毕业内容很有原创性，且相较于我的专业比较有突破性，就想把毕设内容总结一下贴出来。  本人是飞行器动力工程专业，但毕设做的偏向电子方面，希望电子方面的大佬可以给点意见。  我会尽量简洁易懂地将其叙述出来。">
+<meta name="twitter:image" content="http://i.imgur.com/ltKy2DZ.png">
 
 
 
@@ -136,7 +138,7 @@
 
 
 
-  <title>基于Arduino的转子压敏荧光图像采集系统的同步触发装置设计 | liqiuming Blog</title>
+  <title>基于Arduino的PSP采集系统同步触发装置设计 | liqiuming Blog</title>
   
 
 
@@ -316,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">基于Arduino的转子压敏荧光图像采集系统的同步触发装置设计</h1>
+          <h1 class="post-title" itemprop="name headline">基于Arduino的PSP采集系统同步触发装置设计</h1>
         
 
         <div class="post-meta">
@@ -374,7 +376,40 @@
       
 
       
-        <p>这是我本科毕业设计的内容，我会尽量简洁易懂地将其叙述出来。</p>
+        <p>#写在前面<br>2017年6月我本科毕业，毕业设计花了前前后后4个多月的样子，中途还更换过实验方案。由于觉得毕业内容很有原创性，且相较于我的专业比较有突破性，就想把毕设内容总结一下贴出来。</p>
+<blockquote>
+<p>本人是飞行器动力工程专业，但毕设做的偏向电子方面，希望电子方面的大佬可以给点意见。</p>
+</blockquote>
+<p>我会尽量简洁易懂地将其叙述出来。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><p>#背景介绍</p>
+<ul>
+<li>什么是PSP？</li>
+</ul>
+<p>PSP是Pressure Sensitive Paint的缩写，荧光氧猝灭压敏涂料。其受激发光源激发，会跟随环境压力大小而发出强度不同的荧光。激发光源通常可以是紫外光或激光等。而航空发动机转子叶片压力的测量可应用此项技术，将其涂在叶片表面，并通过拍摄叶片荧光图像可以获得表面压力分布数据。相较于传统在叶片表面开测压孔等机械破坏的测压方式，大大简化测压实验准备工作。</p>
+<ul>
+<li>PSP采集系统有什么需求？</li>
+</ul>
+<p>最终目标是采集转子叶片表面的荧光图像，但受限于相机的分辨率，我们只能将相机取景范围限制在一个叶片的大小，且图像采集时转子保持旋转状态，因此为达目标作如下说明：</p>
+<ol>
+<li>相机对准转子风扇的一个特定相位，需要在涂有压敏涂料的叶片旋转至该相位时，将其图像捕捉；</li>
+<li>在行业里对于PSP图像采集一般有两种方式：高速图像采集法和相位锁定法。我也是针对这两种方法设计的采集系统同步触发装置。</li>
+</ol>
+<blockquote>
+<p>高速图像采集法：激发光源对叶片表面PSP持续激发出荧光，在该叶片旋转至相机取景范围时，触发相机快门进行拍摄。</p>
+<p>相位锁定法：实验处于完全暗光条件下，整个测量过程中相机快门保持常开的状态，在涂有PSP的叶片进入相机取景范围时触发激发光源点亮。</p>
+</blockquote>
+<p>#采集系统组成说明</p>
+<p>基于需求，做出的设计方案如下图所示：<br><img src="http://i.imgur.com/ltKy2DZ.png" alt=""></p>
+<ul>
+<li>计算机作用是接收相机输入的图像以及烧写程序进同步触发器；</li>
+<li>激发光源是紫外光，是四组UVLED串组成的阵列，每组需30-40V/700mA电源；</li>
+<li>CCD相机型号日本滨松（HAMAMATSU）公司ORCA-R2高灵敏度制冷型CCD相机；</li>
+<li>转子风扇独立供电不需控制，最高转速3000rpm；</li>
+<li>光电传感器用于反应叶片的相位，其自身会发出红外光，当该束红外光反射并被接收到时，输出高电平信号。我们在转子轴部分较偏心处贴有反光纸，其相位处于当涂有PSP的叶片处于相机取景范围正中时，红外光会被反光纸反射。即光电传感器的作用即是反应叶片的相位。</li>
+<li>同步触发器的设计基于Arduino平台。</li>
+</ul>
+<p>#设计方案</p>
+<p>需求是两种采集方式下均能够使用，因此</p>
 
       
     </div>
@@ -477,8 +512,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -522,6 +566,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -668,7 +728,7 @@
         var disqus_config = function () {
           this.page.url = 'http://yoursite.com/2017/07/10/基于Arduino的转子压敏荧光图像采集系统的同步触发装置设计/';
           this.page.identifier = '2017/07/10/基于Arduino的转子压敏荧光图像采集系统的同步触发装置设计/';
-          this.page.title = '基于Arduino的转子压敏荧光图像采集系统的同步触发装置设计';
+          this.page.title = '基于Arduino的PSP采集系统同步触发装置设计';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://liqiuming.disqus.com/embed.js';
