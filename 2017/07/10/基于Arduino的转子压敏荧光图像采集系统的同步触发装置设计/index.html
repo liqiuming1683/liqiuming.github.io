@@ -100,7 +100,18 @@
 <meta property="og:site_name" content="liqiuming Blog">
 <meta property="og:description" content="#写在前面2017年6月我本科毕业，毕业设计花了前前后后4个多月的样子，中途还更换过实验方案。由于觉得毕业内容很有原创性，且相较于我的专业比较有突破性，就想把毕设内容总结一下贴出来。  本人是飞行器动力工程专业，但毕设做的偏向电子方面，希望电子方面的大佬可以给点意见。  我会尽量简洁易懂地将其叙述出来。">
 <meta property="og:image" content="http://i.imgur.com/ltKy2DZ.png">
-<meta property="og:updated_time" content="2017-07-13T03:04:46.004Z">
+<meta property="og:image" content="http://i.imgur.com/ruJBkv4.png">
+<meta property="og:image" content="http://i.imgur.com/xr9AlgB.png">
+<meta property="og:image" content="http://i.imgur.com/i3IHLvR.png">
+<meta property="og:image" content="http://i.imgur.com/QHPu4zS.png">
+<meta property="og:image" content="http://i.imgur.com/JOzeG0G.png">
+<meta property="og:image" content="http://i.imgur.com/mq4y1mI.png">
+<meta property="og:image" content="http://i.imgur.com/knBumdi.gif">
+<meta property="og:image" content="http://i.imgur.com/dbYzynv.png">
+<meta property="og:image" content="http://i.imgur.com/9IBstbj.png">
+<meta property="og:image" content="http://i.imgur.com/Rh6KgDr.png">
+<meta property="og:image" content="http://i.imgur.com/v0XhdPj.jpg">
+<meta property="og:updated_time" content="2017-07-15T08:19:09.768Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Arduino的PSP采集系统同步触发装置设计">
 <meta name="twitter:description" content="#写在前面2017年6月我本科毕业，毕业设计花了前前后后4个多月的样子，中途还更换过实验方案。由于觉得毕业内容很有原创性，且相较于我的专业比较有突破性，就想把毕设内容总结一下贴出来。  本人是飞行器动力工程专业，但毕设做的偏向电子方面，希望电子方面的大佬可以给点意见。  我会尽量简洁易懂地将其叙述出来。">
@@ -409,7 +420,254 @@
 <li>同步触发器的设计基于Arduino平台。</li>
 </ul>
 <p>#设计方案</p>
-<p>需求是两种采集方式下均能够使用，因此</p>
+<p>需求：</p>
+<p>在高速图像采集法下，采集系统内的相机需要拍摄下每一转同一个涂有PSP叶片的图像，并且为方便后期图像处理，需要拍摄的图像之间相位偏差小。<br>需要设计的采集系统同步触发装置需要控制激发光源，相机快门以及接受光电传感器信号。</p>
+<ul>
+<li>光电传感器信号的输入</li>
+</ul>
+<p>光电传感器是反射式的，供电电压10V，输出TTL信号（接收到反光时输出高电平，没有反光时输出低电平），其高电平电压经测量得为9V左右。在将信号给到Arduino时，首先利用电位计（10kΩ）对其进行降压处理，降为高电平4.5V后信号输给Arduino。<br><img src="http://i.imgur.com/ruJBkv4.png" alt=""></p>
+<ul>
+<li>相机快门控制</li>
+</ul>
+<p>实验室所用的CCD相机自身带有外触发模式，当有5V高电平信号输入，即可触发相机打开快门拍摄。</p>
+<ul>
+<li>激发光源控制</li>
+</ul>
+<p>实验室激发光源是紫外光，是四组UVLED串组成的阵列，每组需30-40V/700mA电源，在高速图像采集法下不需要控制，而在相位锁定法下需要控制其通断。由于Arduino的信号电压无法驱动光源工作，因有以下设计：<br><img src="http://i.imgur.com/xr9AlgB.png" alt=""><br>紫外灯有其自己的供电电源，且用到固态继电器使得Arduino可以间接控制紫外灯的点亮和熄灭。</p>
+<p>#测试装置响应频率</p>
+<p>由于装置目标工作环境是在转速3000rpm或更高，因此其本身的响应频率是影响实验结果的直接因素。<br>主要测试一下几部分：光源的响应特性，固态继电器的响应频率。</p>
+<ul>
+<li>固态继电器响应频率测试</li>
+</ul>
+<p><img src="http://i.imgur.com/i3IHLvR.png" alt=""></p>
+<p>测试原理：</p>
+<blockquote>
+<p>固态继电器共有四个引脚，其中1,2脚接入光源的供电回路，3,4脚接入Arduino控制回路，控制逻辑是在3脚置高时1,2脚之间导通。</p>
+</blockquote>
+<p>Arduino输出固定频率信号到固态继电器3脚（4脚接地），再接收1脚的高电平信号（2脚置高），将该信号转换成频率并在串口显示。如果输出信号频率与输入信号频率相等，则再不断调高输入信号的频率，直至二者不等或者前者不稳定时，则说明此即为固态继电器的响应上限。最终测试得到上限响应频率1kHz，满足实验需求。</p>
+<ul>
+<li>光源的响应特性测试</li>
+</ul>
+<p><img src="http://i.imgur.com/QHPu4zS.png" alt=""></p>
+<p>测试原理：<br>通过检测光源频闪时的光强大小及变化，来检验其在高频下的响应特性。测试时将紫外光源照向贴有荧光纸的平整表面，并利用PMT对荧光纸表面单点测量其荧光强度。PMT的响应时间为纳秒级，十分灵敏且噪声小。在PMT前设有通过波长为625±25nm的滤波片，可以将反射回光信号中的杂色光滤掉。</p>
+<blockquote>
+<p>PMT:Photo Multiplier Tube，光电倍增管，能在低能级光度学和光谱学方面测量波长200~1200纳米的极微弱辐射功率。</p>
+</blockquote>
+<p>测试结果如图：<br>选择了四个频率下测试：25Hz、33.3Hz、50Hz以及250Hz，所得光强-时间图像。</p>
+<p><img src="http://i.imgur.com/JOzeG0G.png" alt=""></p>
+<p>可以看出，即便最高在250Hz的频率下，紫外光源依旧能够保持频率地点亮和熄灭。实验风扇最高转速3000rpm，即对应频率50Hz，因而频率上能够满足实验的需求。</p>
+<p>#制作装置</p>
+<p>##高速图像采集法下原理图及代码如下：</p>
+<ul>
+<li>为锁相更为准确，采用两个反射式光电传感器;</li>
+</ul>
+<blockquote>
+<p>逻辑是将两个传感器紧靠放置，在第一个传感器信号置高，判断第二个传感器信号是否置高，若为高则判断叶片进入相机取景范围，此时即可触发相机快门进行拍摄。</p>
+</blockquote>
+<ul>
+<li>添加了一块LCD1602屏幕用来显示风扇转速。</li>
+</ul>
+<p><img src="http://i.imgur.com/mq4y1mI.png" alt=""></p>
+<pre><code>/*
+ * 需求说明：相位锁定法下同步触发装置设计
+ * Arduino输出高电平，实现对紫外光源的控制；风扇独立运转，不需控制。
+ * 同时加入LCD1602显示屏对风扇转速进行显示；串口显示旋转的圈数。
+ * 反射式的反光纸尺寸可以较大，使得其置高的时间稍超前于反射式。
+ * 整个装置的引脚设置如下：
+ * 12,11,10,9,8,7——LCD1602
+ * 6——反射式传感器1
+ * 5——反射式传感器2
+ * 1——相机输出引脚
+ */
+//引入LiquidCrystal头文件（内含LCD显示相关函数）
+#include &lt;LiquidCrystal.h&gt;
+
+//构造一个LiquidCrystal的类成员，使用数字I/O：12,11,5,4,3,2
+LiquidCrystal lcd(12,11,10,9,8,7);
+
+int pinSensorRe1 = 6;//反射式光电传感器1引脚号
+int pinSensorRe2 = 5;//反射式光电传感器2引脚号
+int pinCamera = 1;//输出给CCD相机信号的引脚号
+int cnt = 0;//用于给信号计数
+long lastRotateTime = 0;//上一转时已经经过的机器时间
+int lastState1 = LOW;//上一转反射式传感器1的状态值
+
+void setup() {
+  // put your setup code here, to run once:
+  // 引脚设置
+  pinMode(pinSensorRe1, INPUT);//反射式光电传感器1信号设为输出
+  pinMode(pinSensorRe2, INPUT);//反射式光电传感器2信号设为输出
+  pinMode(pinCamera, INPUT);//CCD相机信号设置为输出
+
+  // 液晶显示“SYNCHRONOUS TRIGGER”
+  lcd.begin(16,2);//初始化LCD1602
+  lcd.setCursor(0,0);
+  lcd.print(&quot;SYNCHRONOUS&quot;);
+  lcd.setCursor(0,1);
+  lcd.print(&quot;Trigger&quot;);//液晶显示&quot;SYNCHRONOUS TRIGGER&quot;
+  delay(2000);//延时2000ms
+  lcd.clear();//清屏
+  lcd.setCursor(0,0);
+  lcd(&quot;RotateSpeed(rpm)&quot;);//液晶显示&quot;RotateSpeed(rpm) &quot;
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int rotateSpeed;//风扇的旋转速度
+  float Time;//旋转一圈所需的时间
+  int valRe1 = digitalRead(pinSensorRe1);//valRe1存储反射式传感器1的状态值
+  int valRe2 = digitalRead(pinSensorRe2);//valRe2存储反射式传感器2的状态值
+
+  //两个传感器均置高，则说明指定叶片进入相机取景范围
+  if(valRe1 == HIGH){
+    if(lastState1 == LOW){
+      Time = millis() - lastRotateTime;
+      lastRotateTime = millis();
+      rotateSpeed = 16.67*Time;//将转速求出并单位换算成rpm
+      lcdDisplay(rotateSpeed);//调用lcdDisplay函数
+    }
+    if(valRe2 == HIGH){
+      //后期根据拍摄情况可能会对延迟进行调教设置
+      //delay(50);//或可能是delayMicrosenconds()函数
+      digitalWrite(pinCamera, HIGH);//同时输出一个高电平信号给相机
+      cnt++;//次数+1
+    }
+  }else{
+    digitalWrite(pinCamera, LOW);
+  }
+  lastState1 = valRe1;//这一转的传感器1状态值是下一转的lastState1值
+
+  Serial.println(cnt);//串口显示信号输出的次数
+}
+
+//自定义LCD显示函数，用于显示转速
+void lcdDisplay(int rotateSpeed) {
+  lcd.setCursor(0,1);//设置液晶开始显示的位置在第二行第一个数位
+  lcd.print(rotateSpeed);
+}
+</code></pre><p>拍摄结果：相机快门50us，风扇转速2500rpm</p>
+<p><img src="http://i.imgur.com/knBumdi.gif" alt=""></p>
+<p>##相位锁定法下原理图及代码如下：</p>
+<p><img src="http://i.imgur.com/dbYzynv.png" alt=""></p>
+<pre><code>/*
+ * 需求说明：相位锁定法下同步触发装置设计
+ * Arduino输出高电平，实现对紫外光源的控制；风扇独立运转，不需控制。
+ * 同时加入LCD1602显示屏对风扇转速进行显示；串口显示旋转的圈数。
+ * 反射式的反光纸尺寸可以较大，使得其置高的时间稍超前于反射式。
+ * 整个装置的引脚设置如下：
+ * 12,11,10,9,8,7——LCD1602
+ * 6——反射式传感器1
+ * 5——反射式传感器2
+ * 4——对射式传感器
+ * 3——紫外光源控制引脚1
+ * 2——紫外光源控制引脚2
+ * 1——相机输出引脚
+ */
+#include &lt;LiquidCrystal.h&gt;//引入LiquidCrystal头文件（内含LCD显示相关函数）
+
+//构造一个LiquidCrystal的类成员，使用数字I/O：12,11,5,4,3,2
+LiquidCrystal lcd(12,11,10,9,8,7);
+
+int pinSensorRe1 = 6;//反射式光电传感器1引脚号
+int pinSensorRe2 = 5;//反射式光电传感器2引脚号
+int pinSensorOp = 4;//对射式光电传感器引脚号
+int pinUVlight1 = 3;//紫外光源控制信号1引脚号
+int pinUVlight2 = 2;//紫外光源控制信号2引脚号
+int pinCamera = 1;//输出给CCD相机信号的引脚号
+int cnt = 0;//用于给信号计数
+long lastRotateTime = 0;//上一转时已经经过的机器时间
+int lastState1 = LOW;//上一转反射式传感器1的状态值
+
+void setup() {
+  // put your setup code here, to run once:
+  // 引脚设置
+  pinMode(pinSensorRe1, INPUT);//反射式光电传感器1信号设为输出
+  pinMode(pinSensorRe2, INPUT);//反射式光电传感器2信号设为输出
+  pinMode(pinSensorOp, INPUT);//对射式光电传感器信号设为输出
+  pinMode(pinUVlight1, OUTPUT);//UV光源控制信号1设为输出
+  pinMode(pinUVlight2, OUTPUT);//UV光源控制信号2设为输出
+  pinMode(pinCamera, INPUT);//CCD相机信号设置为输出
+
+  // 液晶显示“SYNCHRONOUS TRIGGER”
+  lcd.begin(16,2);//初始化LCD1602
+  lcd.setCursor(0,0);
+  lcd.print(&quot;SYNCHRONOUS&quot;);
+  lcd.setCursor(0,1);
+  lcd.print(&quot;Trigger&quot;);//液晶显示&quot;SYNCHRONOUS TRIGGER&quot;
+  delay(2000);//延时2000ms
+  lcd.clear();//清屏
+  lcd.setCursor(0,0);
+  lcd(&quot;RotateSpeed(rpm)&quot;);//液晶显示&quot;RotateSpeed(rpm) &quot;
+  Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int rotateSpeed;//风扇的旋转速度
+  float Time;//旋转一圈所需的时间
+  int valRe1 = digitalRead(pinSensorRe1);//valRe1存储反射式传感器1的状态值
+  int valRe2 = digitalRead(pinSensorRe2);//valRe2存储反射式传感器2的状态值
+
+  //两个传感器均置高，则说明指定叶片进入相机取景范围
+  if(valRe1 == HIGH){
+    if(lastState1 == LOW){
+      Time = millis() - lastRotateTime;
+      lastRotateTime = millis();
+      rotateSpeed = 16.67*Time;//将转速求出并单位换算成rpm
+      lcdDisplay(rotateSpeed);//调用lcdDisplay函数
+    }
+    if(valRe2 == HIGH){
+      //后期根据拍摄情况可能会对延迟进行调教设置
+      //delay(50);//或可能是delayMicrosenconds()函数
+      digitalWrite(pinUVlight1, HIGH);//传感器输出为HIGH时，UV光源引脚1置高
+      digitalWrite(pinUVlight2, HIGH);//传感器输出为HIGH时，UV光源引脚2置高
+      digitalWrite(pinCamera, HIGH);//同时输出一个高电平信号给相机
+      cnt++;//次数+1
+    }
+  }else{
+    digitalWrite(pinUVlight1, LOW);
+    digitalWrite(pinUVlight2, LOW);
+    digitalWrite(pinCamera, LOW);
+  }
+  lastState1 = valRe1;//这一转的传感器1状态值是下一转的lastState1值
+
+  Serial.println(cnt);//串口显示信号输出的次数
+}
+
+//自定义LCD显示函数，用于显示转速
+void lcdDisplay(int rotateSpeed) {
+  lcd.setCursor(0,1);//设置液晶开始显示的位置在第二行第一个数位
+  lcd.print(rotateSpeed);//显示实时转速
+}
+</code></pre><p>拍摄结果：</p>
+<p><img src="http://i.imgur.com/9IBstbj.png" alt=""></p>
+<p>结果分析：</p>
+<ul>
+<li>首先由于图像在相机底片上叠加作用，亮度明显偏高使得最终图片过曝，因而需要调低紫外光源的亮度；</li>
+<li>其次，虽然已经将风扇除贴有反光纸的叶片外均涂上了黑色油漆，消除了漫反射的影响，但仍然有部分存在镜面反射的作用，可以明显看到转子中心轴的部分也反射了光进入相机快门；</li>
+<li>可以明显观察到所得图像的拖影比较严重。虽然章节2中测试得到的光源能够最高在250Hz的频率下保持较好的特性，但需要注意的是该结果是在测试条件是在光源占空比为0.5时获得。而实际测量在1000rpm下，即旋转一圈60ms，根据高速图像采集法的校验经验，快门至多150us才能使得图像不产生拖影，光源同理，因而光源需要占空比低至0.0025时，清晰无拖影的叶片图像才能在相机底片上成像。而在如此低占空比下光源无法被点亮，此原因还尚未可知。因而为点亮光源而提高占空比，这是使得图像产生拖影的主要原因，因此后期如果采用相位锁定法则需要更换光源。</li>
+</ul>
+<p>##外壳制作</p>
+<p>外壳效果如图<br><img src="http://i.imgur.com/Rh6KgDr.png" alt=""></p>
+<p>实物如图：<br><img src="http://i.imgur.com/v0XhdPj.jpg" alt=""></p>
+<p>装置说明：</p>
+<ul>
+<li>光源电源可调，范围0-40V/5A可调，可以调节其上的电位器改变电压来调节紫外光源的亮度；</li>
+<li>本装置设有2个反射式传感器接口，其中2号接口回路中接入了一个电位器，为以后有更高精度传感器但供电电压低于DC24V预留，可以调节电位器使供给传感器的电压降低；</li>
+<li>装置留有1个对射式光电传感器接口，虽然对射式传感器的响应频率要求更高，但其在精度允许范围内锁相更为准确，因此为以后有更高精度的对射式传感器预留；</li>
+<li>装置设有2个光源接口，用以给一个UVLED灯头供电，分别控制其2组UVLED串列；</li>
+<li>装置留给相机引脚为两个导线，分别是信号和接地，导线颜色分别是红色和黑色。</li>
+</ul>
+<p>#总结</p>
+<ol>
+<li>由于图像的清晰度直接与相机的快门时间和风扇转速相关，因此进一步开发利用了光电传感器的功能对风扇转速进行测量，并加入了LCD屏幕显示转速，对于实验数据记录便捷性大有裨益；</li>
+<li>经电位器降压后的传感器输出信号出现噪声，使得无法正确地触发相机和光源，因而利用74LS14施密特触发器对其输出信号进行整形，减小信号噪声，减弱了其对拍摄的影响；</li>
+<li>鉴于对射式传感器在其响应频率范围内的锁相精度更高，因而尝试使用对射式传感器替代反射式传感器，但实际发现对射式传感器响应频率的要求是反射式传感器的7倍，只适合在低转速情形下实验，高转速实验条件下发展空间不大，因此暂时放弃进一步探究此种方法；</li>
+<li>为提高锁相精度，本文又尝试使用两个反射式传感器组合的方法对叶片进行锁相，发现这种方法下拍摄的相位锁定能力和图像清晰度最佳；</li>
+<li>两个反射式传感器结合的方案直接移置到相位锁定法下进行拍摄，得到的结果并不令人满意，初步判断是由于光源的特性不满足要求，即光源在低占空比下特性差，高占空比下又使得拍摄时图像在相机底片重叠产生拖影。因此后期需要更换光源。</li>
+</ol>
 
       
     </div>
