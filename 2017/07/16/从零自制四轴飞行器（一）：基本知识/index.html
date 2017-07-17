@@ -108,7 +108,7 @@
 <meta property="og:image" content="http://i.imgur.com/AkYuomn.jpg">
 <meta property="og:image" content="http://i.imgur.com/S85GnKF.jpg">
 <meta property="og:image" content="http://i.imgur.com/79PHNzg.png">
-<meta property="og:updated_time" content="2017-07-17T11:41:30.618Z">
+<meta property="og:updated_time" content="2017-07-17T11:43:14.530Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零自制四轴飞行器（一）：基本知识">
 <meta name="twitter:description" content="暑假在家闲的慌，想要自己捣鼓个四轴飞行器，就先打基础吧，以后也好懂怎么给四轴升级硬件。 自制四轴的博客或帖子有很多（csdn，Arduino中文社区，21C电子网等等），较为深入的研究先不谈，比如PID算法，卡尔曼滤波等，先用现成的一些组件组装起来。">
@@ -389,9 +389,9 @@
 <a id="more"></a>
 <hr>
 <h1 id="四轴飞行器结构和原理"><a href="#四轴飞行器结构和原理" class="headerlink" title="四轴飞行器结构和原理"></a>四轴飞行器结构和原理</h1><p>关于四轴飞行器的结构和原理直接参考了这篇人人小站上的<a href="http://http://zhan.renren.com/niuneine?gid=3602888498032410217&amp;checked=true" target="_blank" rel="external">博客</a>。</p>
-<h2 id="1-结构形式"><a href="#1-结构形式" class="headerlink" title="1.结构形式"></a>1.结构形式</h2><p>旋翼对称分布在机体的前后、左右四个方向，四个旋翼处于同一高度平面，且四个旋翼的结构和半径都相同，四个电机对称的安装在飞行器的支架端，支架中间空间安放飞行控制计算机和外部设备。结构形式如图1.1所示。</p>
+<h2 id="结构形式"><a href="#结构形式" class="headerlink" title="结构形式"></a>结构形式</h2><p>旋翼对称分布在机体的前后、左右四个方向，四个旋翼处于同一高度平面，且四个旋翼的结构和半径都相同，四个电机对称的安装在飞行器的支架端，支架中间空间安放飞行控制计算机和外部设备。结构形式如图1.1所示。</p>
 <p><img src="http://i.imgur.com/icVYLTi.jpg" alt=""></p>
-<h2 id="2-工作原理"><a href="#2-工作原理" class="headerlink" title="2.工作原理"></a>2.工作原理</h2><p>四旋翼飞行器通过调节四个电机转速来改变旋翼转速，实现升力的变化，从而控制飞行器的姿态和位置。四旋翼飞行器是一种六自由度的垂直升降机，但只有四个输入力，同时却有六个状态输出，所以它又是一种<a href="http://http://baike.baidu.com/link?url=LC1qmMuCJavjWsePlspiuWSa-WN51FysZ9xxysgWHJuLPumTriPKnlxW4e9mxbDOBy6uFPJUfTJiO9AquIX9yVM83Wju6UHjUoz1HKUG-A5ZdNK9NXf658hf0nGp6-4K" target="_blank" rel="external">欠驱动</a>系统。</p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>四旋翼飞行器通过调节四个电机转速来改变旋翼转速，实现升力的变化，从而控制飞行器的姿态和位置。四旋翼飞行器是一种六自由度的垂直升降机，但只有四个输入力，同时却有六个状态输出，所以它又是一种<a href="http://http://baike.baidu.com/link?url=LC1qmMuCJavjWsePlspiuWSa-WN51FysZ9xxysgWHJuLPumTriPKnlxW4e9mxbDOBy6uFPJUfTJiO9AquIX9yVM83Wju6UHjUoz1HKUG-A5ZdNK9NXf658hf0nGp6-4K" target="_blank" rel="external">欠驱动</a>系统。</p>
 <p><img src="http://i.imgur.com/pCYymox.jpg" alt=""><br><img src="http://i.imgur.com/OeiwmkT.jpg" alt=""></p>
 <p>四旋翼飞行器的电机 1和电机 3逆时针旋转的同时，电机 2和电机 4顺时针旋转，因此当飞行器平衡飞行时，<a href="http://http://baike.baidu.com/item/%E9%99%80%E8%9E%BA%E6%95%88%E5%BA%94" target="_blank" rel="external">陀螺效应</a>和空气动力<a href="http://http://baike.baidu.com/link?url=gsH9mD9uoN3X5qaM1wHQJjXEPQJ6NHooDpwFx1t0thYZKua2tWbVkSKDjxSzXjqWf3ooRPNWV8-ZA_0d_unMgr-QoSzLl7wIfSF1iQLZJ43" target="_blank" rel="external">扭矩</a>效应均被抵消。<br>在上图中，电机 1和电机 3作逆时针旋转，电机 2和电机 4作顺时针旋转，规定沿 x轴正方向运动称为向前运动，箭头在旋翼的运动平面上方表示此电机转速提高，在下方表示此电机转速下降。</p>
 <ol>
@@ -670,7 +670,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#四轴飞行器结构和原理"><span class="nav-number">1.</span> <span class="nav-text">四轴飞行器结构和原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-结构形式"><span class="nav-number">1.1.</span> <span class="nav-text">1.结构形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-工作原理"><span class="nav-number">1.2.</span> <span class="nav-text">2.工作原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四轴飞行器的组成及参数说明"><span class="nav-number">2.</span> <span class="nav-text">四轴飞行器的组成及参数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一般四轴飞行器的零部件及说明"><span class="nav-number">2.1.</span> <span class="nav-text">一般四轴飞行器的零部件及说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四轴零件之间的接线与简单说明"><span class="nav-number">2.2.</span> <span class="nav-text">四轴零件之间的接线与简单说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理与名词解释"><span class="nav-number">2.3.</span> <span class="nav-text">基本原理与名词解释</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#四轴飞行器结构和原理"><span class="nav-number">1.</span> <span class="nav-text">四轴飞行器结构和原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构形式"><span class="nav-number">1.1.</span> <span class="nav-text">结构形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工作原理"><span class="nav-number">1.2.</span> <span class="nav-text">工作原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四轴飞行器的组成及参数说明"><span class="nav-number">2.</span> <span class="nav-text">四轴飞行器的组成及参数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一般四轴飞行器的零部件及说明"><span class="nav-number">2.1.</span> <span class="nav-text">一般四轴飞行器的零部件及说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四轴零件之间的接线与简单说明"><span class="nav-number">2.2.</span> <span class="nav-text">四轴零件之间的接线与简单说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理与名词解释"><span class="nav-number">2.3.</span> <span class="nav-text">基本原理与名词解释</span></a></li></ol></li></ol></div>
             
 
           </div>
