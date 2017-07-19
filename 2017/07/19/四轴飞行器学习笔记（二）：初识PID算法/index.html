@@ -93,12 +93,12 @@
 
 
 
-<meta name="description" content="写在前面四轴飞行器中PID算法用于控制电机的转速，使其稳定在目标转速。  P：Proportion（比例），就是输入偏差乘以一个常数；I ：Integral（积分），就是对输入偏差进行积分运算；D：Differential（微分），对输入偏差进行微分运算。  PID控制：将偏差的比例（P），积分（I），微分（D）通过线性组合构成控制量，用这一控制量对被控对象进行控制。  模拟PID控制原理PID控">
+<meta name="description" content="四轴飞行器中PID算法用于控制电机的转速，使其稳定在目标转速。   关于PID：P：Proportion（比例），就是输入偏差乘以一个常数；I：Integral（积分），就是对输入偏差进行积分运算；D：Differential（微分），对输入偏差进行微分运算。 PID控制：将偏差的比例（P），积分（I），微分（D）通过线性组合构成控制量，用这一控制量对被控对象进行控制。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="四轴飞行器学习笔记（二）：初识PID算法">
 <meta property="og:url" content="http://yoursite.com/2017/07/19/四轴飞行器学习笔记（二）：初识PID算法/index.html">
 <meta property="og:site_name" content="liqiuming Blog">
-<meta property="og:description" content="写在前面四轴飞行器中PID算法用于控制电机的转速，使其稳定在目标转速。  P：Proportion（比例），就是输入偏差乘以一个常数；I ：Integral（积分），就是对输入偏差进行积分运算；D：Differential（微分），对输入偏差进行微分运算。  PID控制：将偏差的比例（P），积分（I），微分（D）通过线性组合构成控制量，用这一控制量对被控对象进行控制。  模拟PID控制原理PID控">
+<meta property="og:description" content="四轴飞行器中PID算法用于控制电机的转速，使其稳定在目标转速。   关于PID：P：Proportion（比例），就是输入偏差乘以一个常数；I：Integral（积分），就是对输入偏差进行积分运算；D：Differential（微分），对输入偏差进行微分运算。 PID控制：将偏差的比例（P），积分（I），微分（D）通过线性组合构成控制量，用这一控制量对被控对象进行控制。">
 <meta property="og:image" content="http://i.imgur.com/iad27Mt.png">
 <meta property="og:image" content="http://i.imgur.com/Jay7Iwr.png">
 <meta property="og:image" content="http://i.imgur.com/IoDzdAl.png">
@@ -110,10 +110,10 @@
 <meta property="og:image" content="http://i.imgur.com/RvuA2NW.png">
 <meta property="og:image" content="http://i.imgur.com/fDcG5g9.png">
 <meta property="og:image" content="http://i.imgur.com/UwZbtph.png">
-<meta property="og:updated_time" content="2017-07-19T02:35:54.645Z">
+<meta property="og:updated_time" content="2017-07-19T02:40:06.933Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="四轴飞行器学习笔记（二）：初识PID算法">
-<meta name="twitter:description" content="写在前面四轴飞行器中PID算法用于控制电机的转速，使其稳定在目标转速。  P：Proportion（比例），就是输入偏差乘以一个常数；I ：Integral（积分），就是对输入偏差进行积分运算；D：Differential（微分），对输入偏差进行微分运算。  PID控制：将偏差的比例（P），积分（I），微分（D）通过线性组合构成控制量，用这一控制量对被控对象进行控制。  模拟PID控制原理PID控">
+<meta name="twitter:description" content="四轴飞行器中PID算法用于控制电机的转速，使其稳定在目标转速。   关于PID：P：Proportion（比例），就是输入偏差乘以一个常数；I：Integral（积分），就是对输入偏差进行积分运算；D：Differential（微分），对输入偏差进行微分运算。 PID控制：将偏差的比例（P），积分（I），微分（D）通过线性组合构成控制量，用这一控制量对被控对象进行控制。">
 <meta name="twitter:image" content="http://i.imgur.com/iad27Mt.png">
 
 
@@ -386,13 +386,10 @@
       
 
       
-        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>四轴飞行器中PID算法用于控制电机的转速，使其稳定在目标转速。</p>
-<blockquote>
-<p>P：Proportion（比例），就是输入偏差乘以一个常数；<br>I ：Integral（积分），就是对输入偏差进行积分运算；<br>D：Differential（微分），对输入偏差进行微分运算。</p>
-</blockquote>
+        <p>四轴飞行器中PID算法用于控制电机的转速，使其稳定在目标转速。  </p>
+<p>关于PID：<br>P：Proportion（比例），就是输入偏差乘以一个常数；<br>I：Integral（积分），就是对输入偏差进行积分运算；<br>D：Differential（微分），对输入偏差进行微分运算。</p>
 <p>PID控制：将偏差的比例（P），积分（I），微分（D）通过线性组合构成控制量，用这一控制量对被控对象进行控制。</p>
-<hr>
-<h1 id="模拟PID控制原理"><a href="#模拟PID控制原理" class="headerlink" title="模拟PID控制原理"></a>模拟PID控制原理</h1><p>PID控制是模拟控制系统中控制器最常用的控制规律。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h1 id="模拟PID控制原理"><a href="#模拟PID控制原理" class="headerlink" title="模拟PID控制原理"></a>模拟PID控制原理</h1><p>PID控制是模拟控制系统中控制器最常用的控制规律。</p>
 <center><img src="http://i.imgur.com/iad27Mt.png" alt=""></center>
 
 <p>常规的模拟PID控制系统原理框图如上所示，由模拟PID控制器和被控对象组成。</p>
@@ -630,7 +627,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模拟PID控制原理"><span class="nav-number">2.</span> <span class="nav-text">模拟PID控制原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#比例环节：Kp-e-t"><span class="nav-number">2.1.</span> <span class="nav-text">比例环节：Kp*e(t)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#积分环节：Kp-Ti-∫e-t-dt"><span class="nav-number">2.2.</span> <span class="nav-text">积分环节：Kp/Ti*∫e(t)dt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微分环节：KpTdde-t-dt"><span class="nav-number">2.3.</span> <span class="nav-text">微分环节：KpTdde(t)/dt</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数字PID控制"><span class="nav-number">3.</span> <span class="nav-text">数字PID控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#位置式PID控制算法"><span class="nav-number">3.1.</span> <span class="nav-text">位置式PID控制算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增量式PID算法"><span class="nav-number">3.2.</span> <span class="nav-text">增量式PID算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#积分分离PID控制算法"><span class="nav-number">3.3.</span> <span class="nav-text">积分分离PID控制算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制器参数整定"><span class="nav-number">3.4.</span> <span class="nav-text">控制器参数整定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#采样周期的选择"><span class="nav-number">3.5.</span> <span class="nav-text">采样周期的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数调整规则的探索"><span class="nav-number">3.6.</span> <span class="nav-text">参数调整规则的探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自校正PID控制器"><span class="nav-number">3.7.</span> <span class="nav-text">自校正PID控制器</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模拟PID控制原理"><span class="nav-number"></span> <span class="nav-text">模拟PID控制原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#比例环节：Kp-e-t"><span class="nav-number">1.</span> <span class="nav-text">比例环节：Kp*e(t)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#积分环节：Kp-Ti-∫e-t-dt"><span class="nav-number">2.</span> <span class="nav-text">积分环节：Kp/Ti*∫e(t)dt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微分环节：KpTdde-t-dt"><span class="nav-number">3.</span> <span class="nav-text">微分环节：KpTdde(t)/dt</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数字PID控制"><span class="nav-number"></span> <span class="nav-text">数字PID控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#位置式PID控制算法"><span class="nav-number">1.</span> <span class="nav-text">位置式PID控制算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增量式PID算法"><span class="nav-number">2.</span> <span class="nav-text">增量式PID算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#积分分离PID控制算法"><span class="nav-number">3.</span> <span class="nav-text">积分分离PID控制算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制器参数整定"><span class="nav-number">4.</span> <span class="nav-text">控制器参数整定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#采样周期的选择"><span class="nav-number">5.</span> <span class="nav-text">采样周期的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数调整规则的探索"><span class="nav-number">6.</span> <span class="nav-text">参数调整规则的探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自校正PID控制器"><span class="nav-number">7.</span> <span class="nav-text">自校正PID控制器</span></a></li></ol></div>
             
 
           </div>
